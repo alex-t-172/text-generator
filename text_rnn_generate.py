@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Aug  3 17:12:03 2017
 
-@author: Alex.Thoma
-"""
 import sys
 import numpy as np
-#### well to start the name is depreciated
 from keras.models import load_model
-#### for two there's a better way to do this...
 
 artist = input('Type name of artist to download text file for: ')
 iteration = input('Type iteration of model to load: ')
@@ -44,21 +38,12 @@ for i in range(int(writing_range)):
     for t, char in enumerate(seed_string):
         x[0, t, char_indices[char]] = 1.
     preds = model.predict(x, verbose=0)[0]
-    #print (np.argmax(preds[7]))
     next_index=np.argmax(preds[len(seed_string)-1])
     
     
-    #next_index=np.argmax(preds[len(seed_string)-11])
-    #print (preds.shape)
-    #print (preds)
-    #next_index = sample(preds, 1) #diversity is 1
     next_char = indices_char[next_index]
     seed_string = seed_string + next_char
-    
-    #print (seed_string)
-    #print ('##############')
-    #if i==40:
-    #    print ('####')
+
     sys.stdout.write(next_char)
 
 sys.stdout.flush()    

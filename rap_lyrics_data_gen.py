@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 14 17:19:28 2017
 
-@author: Alex.Thoma
-"""
-
-import os
 import requests
 import bs4
 
@@ -37,7 +31,6 @@ for i in filtered:
 data_file = open('{}_data.txt'.format(artist), 'w')
 
 
-# need better way to process and write data in more structured way - iterate over res better
 for song in refiltered:
     try:
         res = requests.get(song)

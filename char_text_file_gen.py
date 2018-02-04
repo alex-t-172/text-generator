@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Aug  3 13:02:49 2017
-
-@author: Alex.Thoma
-"""
 
 ####
 
@@ -14,10 +9,6 @@ Created on Thu Aug  3 13:02:49 2017
 import numpy as np
 import os
 import pickle
-
-##uncomment below if you want to use nietzches writings as the corpus
-#path = 'C:\\Users\\Alex.Thoma\\Desktop\\Python Tests\\Rap Generator'
-#os.chdir(path)
 
 artist = input('Type name of artist to download text file for: ')
 text = open('{}_data.txt'.format(artist)).read().lower()
@@ -69,24 +60,3 @@ with open(Xfilename, 'wb') as f:
     pickle.dump(X, f)
 with open(yfilename, 'wb') as f:
     pickle.dump(y, f)
-    
-# want to split into chunks, pickle and save to disk - then for training read in file chunk at a time
-# as currently X an y take up ~70% of memory, means can't effectively train model
-# so split into say 439 chunks, each now has 4574 data points
-
-'''X = np.split(X, 480, axis=0)
-y = np.split(y, 480, axis=0)
-
-for i in range(len(X)):
-    print('Saving array set ' + str(i))
-    Xfilename = 'X' + str(i) + '.pickle'
-    yfilename = 'y' + str(i) + '.pickle'
-    with open(Xfilename, 'wb') as f:
-        pickle.dump(X[i], f)
-    with open(yfilename, 'wb') as f:
-        pickle.dump(y[i], f)
-
-print('All arrays saved to disk')
-
-del(X)
-del(y)'''

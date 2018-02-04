@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Aug  3 13:02:49 2017
-
-@author: Alex.Thoma
-"""
 
 ####
 
@@ -46,17 +41,12 @@ print ('model is made')
 
 print (model.summary())
 
-#just actual training is slow - sort it out, use shortened corpus?
+
 for iteration in range(1, 6):
     print()
     print('-' * 50)
     print('Iteration', iteration)
     
-    # build system memory explorer - figure out why so high and if can fix or if insurmountable on this hardware
-    # is keras issue
-    # try updating to bleeding edge first
-    # also want to code a way to load in weights, then train, and not overwrite them!!!
-    # as otherwise lose everything
         
     Xfilename = '{}_X.pickle'.format(artist)
     yfilename = '{}_y.pickle'.format(artist)
@@ -69,10 +59,8 @@ for iteration in range(1, 6):
     history=model.fit(X, y, batch_size=32, nb_epoch=1,verbose=0)    #small batch size for faster training? try 16 or 32
     sleep(0.1) # https://github.com/fchollet/keras/issues/2110
 
-    # saving models at the following iterations -- uncomment it if you want to save weights and load it later
 
     model.save('{}_deeperLSTM_model{}.h5'.format(artist, iteration))
-    #start_index = random.randint(0, len(text) - maxlen - 1)
 
     sys.stdout.flush()
     print ('loss is')

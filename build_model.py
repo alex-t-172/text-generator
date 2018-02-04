@@ -13,8 +13,10 @@ from keras.layers import Dense, Activation, Dropout
 from keras.layers import LSTM,TimeDistributed
 from time import sleep
 import sys
+from keras.models import load_model
 
-def create_data(artist):
+
+def create_indices(artist):
     #artist = input('Type name of artist to build model for: ')
     text = open('{}_data.txt'.format(artist)).read().lower()
 
@@ -24,7 +26,10 @@ def create_data(artist):
     print('total chars:', len(chars))
     char_indices = dict((c, i) for i, c in enumerate(chars))
     indices_char = dict((i, c) for i, c in enumerate(chars))
+    return text, char_indices, indices_char, chars
 
+
+def create_data_arrays(text, artist, char_indices, indices_char, chars):
     # split the corpus into sequences of length=maxlen
     #input is a sequence of 40 chars and target is also a sequence of 40 chars shifted by one position
     #for eg: if you maxlen=3 and the text corpus is abcdefghi, your input ---> target pairs will be
@@ -50,7 +55,7 @@ def create_data(artist):
         for t, char in enumerate(sentence):
             y[i, t, char_indices[char]] = 1
             
-    return X, y, char_indices, indices_char, chars
+    return X, y
     
 
 def build_LSTM_model(X, y, chars):
@@ -81,7 +86,7 @@ def train_LSTM_model(model, X, y, artist):
         sleep(0.1) # https://github.com/fchollet/keras/issues/2110
 
 
-        model.save('{}_deeperLSTM_model{}.h5'.format(artist, iteration))
+        model.save('{}_LSTM_model{}.h5'.format(artist, iteration))
 
         sys.stdout.flush()
         print ('training history:')

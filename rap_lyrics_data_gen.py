@@ -3,8 +3,7 @@
 import requests
 import bs4
 
-def generate_ohhla_text():
-    artist = input('Type name of artist to download text file for: ')
+def generate_ohhla_text(artist):
 
     main_page = requests.get('http://www.ohhla.com/YFA_{}.html'.format(artist))
     main_page.raise_for_status()

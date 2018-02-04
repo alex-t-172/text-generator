@@ -19,24 +19,23 @@ import os
 import re
 import pickle
 
-artist = input('Type name of artist to download text file for: ')
+artist = input('Type name of artist to build model for: ')
 
 # build the model: 2 stacked LSTM
 print('Build model...')
 model = Sequential()
-#model.add(LSTM(512, return_sequences=True, input_shape=(maxlen, len(chars))))  # original one
-model.add(LSTM(200, input_dim=69,return_sequences=True)) #minesh witout specifying the input_length
-model.add(LSTM(200, return_sequences=True)) #- original
-model.add(LSTM(200, return_sequences=True))
+model.add(LSTM(512, input_dim=69,return_sequences=True))
+model.add(LSTM(512, return_sequences=True)) #- original
+model.add(LSTM(512, return_sequences=True))
 model.add(Dropout(0.2))
 model.add(TimeDistributed(Dense(69)))
 model.add(Activation('softmax'))
 
-model.compile(loss='categorical_crossentropy', optimizer='rmsprop') #adam
+model.compile(loss='categorical_crossentropy', optimizer='adam')
 
 print ('model is made')
 
-# train the model, output generated text after each iteration
+# train the model
 
 
 print (model.summary())

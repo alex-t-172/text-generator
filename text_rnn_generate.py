@@ -4,7 +4,7 @@ import sys
 import numpy as np
 from keras.models import load_model
 
-artist = input('Type name of artist to download text file for: ')
+artist = input('Type name of artist to load model for: ')
 iteration = input('Type iteration of model to load: ')
 text = open('{}_data.txt'.format(artist)).read().lower()
 
@@ -29,7 +29,6 @@ seed_string=input('Please specify a seed string:')
 print ("seed string -->", seed_string)
 print ('The generated text is')
 sys.stdout.write(seed_string),
-#x=np.zeros((1, len(seed_string), len(chars)))
 
 
 

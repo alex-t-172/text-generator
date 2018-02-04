@@ -6,6 +6,8 @@ from keras.models import load_model
 
 
 def generate_text(artist, chars, char_indices, indices_char):
+    '''Load in trained model of specified iteration, generate some output text based off a seed string.'''
+    
     iteration = input('Type iteration of model to load: ')
 
     model_name = '{}_LSTM_model{}.h5'.format(artist, iteration)

@@ -13,11 +13,12 @@ from keras.layers import Dense, Activation, Dropout
 from keras.layers import LSTM,TimeDistributed
 from time import sleep
 import sys
-from keras.models import load_model
 
 
 def create_indices(artist):
-    #artist = input('Type name of artist to build model for: ')
+    '''Read text from file for given artist, and generate list of all characters used in file,
+    and 2 dictionaries of indices per character.'''
+    
     text = open('{}_data.txt'.format(artist)).read().lower()
 
     print('corpus length:', len(text))
@@ -30,10 +31,10 @@ def create_indices(artist):
 
 
 def create_data_arrays(text, artist, char_indices, indices_char, chars):
-    # split the corpus into sequences of length=maxlen
+    '''Vectorize text data for given artist, spliting the corpus into sequences of length=40'''
+    
     #input is a sequence of 40 chars and target is also a sequence of 40 chars shifted by one position
-    #for eg: if you maxlen=3 and the text corpus is abcdefghi, your input ---> target pairs will be
-    # [a,b,c] --> [b,c,d], [b,c,d]--->[c,d,e]....and so on
+
     maxlen = 40
     step = 1
     sentences = []
@@ -58,12 +59,13 @@ def create_data_arrays(text, artist, char_indices, indices_char, chars):
     return X, y
     
 
-def build_LSTM_model(X, y, chars):
-    # build the model: 2 stacked LSTM
+def build_LSTM_model(chars):
+    '''Build a 2 stacked LSTM model to train on the corpus.'''
+    
     print('Building model...')
     model = Sequential()
     model.add(LSTM(512, input_dim=len(chars),return_sequences=True))
-    model.add(LSTM(512, return_sequences=True)) #- original
+    model.add(LSTM(512, return_sequences=True))
     model.add(Dropout(0.2))
     model.add(TimeDistributed(Dense(len(chars))))
     model.add(Activation('softmax'))
@@ -77,6 +79,8 @@ def build_LSTM_model(X, y, chars):
 
 
 def train_LSTM_model(model, X, y, artist):
+    '''Train 2 stacked LSTM model on vectorized corpus data, save results at each iteration.'''
+    
     for iteration in range(1, 6):
         print()
         print('-' * 50)

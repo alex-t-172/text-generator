@@ -5,6 +5,8 @@ import build_model
 import text_rnn_generate
 
 def full_run(download_flag):
+    '''Download song lyrics for, vectorize, build and train model for specified artist.'''
+    
     artist = input('Type name of artist to work with: ')
     
     if download_flag == 'Y':
@@ -12,12 +14,14 @@ def full_run(download_flag):
     
     text, char_indices, indices_char, chars = build_model.create_indices(artist)
     X, y, = build_model.create_data_arrays(text, artist, char_indices, indices_char, chars)
-    model = build_model.build_LSTM_model(X, y, chars)
+    model = build_model.build_LSTM_model(chars)
     build_model.train_LSTM_model(model, X, y, artist)
     text_rnn_generate.generate_text(artist, chars, char_indices, indices_char)
 
 
 def text_gen_run():
+    '''Generate output text for specified artist - for pre trained model.'''
+    
     artist = input('Type name of artist to work with: ')
     text, char_indices, indices_char, chars = build_model.create_indices(artist)
     text_rnn_generate.generate_text(artist, chars, char_indices, indices_char)

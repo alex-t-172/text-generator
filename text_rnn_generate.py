@@ -3,22 +3,15 @@
 import sys
 import numpy as np
 from keras.models import load_model
+#import rap_lyrics_data_gen
+import build_model
 
 artist = input('Type name of artist to load model for: ')
+X, y, char_indices, indices_char, chars = build_model.create_data(artist)
+model = build_model.build_LSTM_model(X, y, chars)
+build_model.train_LSTM_model(model, X, y, artist)
+
 iteration = input('Type iteration of model to load: ')
-text = open('{}_data.txt'.format(artist)).read().lower()
-
-# remove square and round brackets
-#text = re.sub("[\(\[].*?[\)\]]", "", text)
-
-print('corpus length:', len(text))
-
-chars = sorted(list(set(text)))
-print('total chars:', len(chars))
-char_indices = dict((c, i) for i, c in enumerate(chars))
-indices_char = dict((i, c) for i, c in enumerate(chars))
-
-del(text)
 
 model_name = '{}_LSTM_model{}.h5'.format(artist, iteration)
 model = load_model(model_name)

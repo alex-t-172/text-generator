@@ -10,8 +10,7 @@ from __future__ import print_function
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
-from keras.layers import LSTM,TimeDistributed,SimpleRNN
-from keras.utils.data_utils import get_file
+from keras.layers import LSTM,TimeDistributed
 from time import sleep
 import sys
 
@@ -54,11 +53,10 @@ for i, sentence in enumerate(next_chars):
 # build the model: 2 stacked LSTM
 print('Build model...')
 model = Sequential()
-model.add(LSTM(512, input_dim=69,return_sequences=True))
+model.add(LSTM(512, input_dim=len(chars),return_sequences=True))
 model.add(LSTM(512, return_sequences=True)) #- original
-model.add(LSTM(512, return_sequences=True))
 model.add(Dropout(0.2))
-model.add(TimeDistributed(Dense(69)))
+model.add(TimeDistributed(Dense(len(chars))))
 model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adam')

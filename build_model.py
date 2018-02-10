@@ -11,6 +11,7 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
 from keras.layers import LSTM,TimeDistributed
+from keras.models import load_model
 from time import sleep
 import sys
 
@@ -79,9 +80,33 @@ def build_LSTM_model(chars):
 
 
 def train_LSTM_model(model, X, y, artist):
-    '''Train 2 stacked LSTM model on vectorized corpus data, save results at each iteration.'''
+    '''Train stacked LSTM model on vectorized corpus data, save results at each iteration.'''
     
     for iteration in range(1, 6):
+        print()
+        print('-' * 50)
+        print('Iteration', iteration)
+        
+        history=model.fit(X, y, batch_size=32, nb_epoch=1,verbose=0)    #small batch size for faster training? try 16 or 32
+        sleep(0.1) # https://github.com/fchollet/keras/issues/2110
+
+
+        model.save('{}_LSTM_model{}.h5'.format(artist, iteration))
+
+        sys.stdout.flush()
+        print ('training history:')
+        print (history.history['loss'][0])
+        print (history.history)
+        print()
+        
+
+def load_train_LSTM_model(X, y, artist, starting_iteration):
+    '''Load stacked LSTM model, train on vectorized corpus data, save results at each iteration.'''
+    
+    model_name = '{}_LSTM_model{}.h5'.format(artist, starting_iteration)
+    model = load_model(model_name)
+    
+    for iteration in range(1+starting_iteration, 6+starting_iteration):
         print()
         print('-' * 50)
         print('Iteration', iteration)

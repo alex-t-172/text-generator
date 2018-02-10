@@ -13,6 +13,14 @@ def create_model(data_name):
     build_model.train_LSTM_model(model, X, y, data_name)
 
 
+def train_model_in_progress(data_name, starting_iteration):
+    '''Load and train model already in progress.'''
+    
+    text, char_indices, indices_char, chars = build_model.create_indices(data_name)
+    X, y, = build_model.create_data_arrays(text, data_name, char_indices, indices_char, chars)
+    build_model.load_train_LSTM_model(X, y, data_name, starting_iteration)
+
+
 def text_gen_run(data_name):
     '''Generate bulk output text for specified dataset - for pre trained model.'''
     
@@ -30,6 +38,7 @@ def text_iter_gen_run(data_name):
 if __name__ == '__main__':
     data_name = 'bb'
     ##rap_lyrics_data_gen.generate_ohhla_text(artist)
-    create_model(data_name)
-    text_gen_run(data_name)
+    #create_model(data_name)
+    train_model_in_progress(data_name, 5)
+    #text_gen_run(data_name)
     #text_iter_gen_run(data_name)

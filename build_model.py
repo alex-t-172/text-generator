@@ -106,7 +106,7 @@ def load_train_LSTM_model(X, y, artist, starting_iteration):
     model_name = '{}_LSTM_model{}.h5'.format(artist, starting_iteration)
     model = load_model(model_name)
     
-    for iteration in range(1+starting_iteration, 6+starting_iteration):
+    for iteration in range(1+starting_iteration, 10+starting_iteration):
         print()
         print('-' * 50)
         print('Iteration', iteration)

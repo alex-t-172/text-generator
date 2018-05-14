@@ -87,7 +87,7 @@ def train_LSTM_model(model_name, X, y, batch_size, n_iter):
         print('-' * 50)
         print('Iteration', iteration)
         
-        history=model.fit(X, y, batch_size=32, nb_epoch=1,verbose=0)    #small batch size for faster training? try 16 or 32
+        history=model.fit(X, y, batch_size=batch_size, nb_epoch=1,verbose=0)    #small batch size for faster training? try 16 or 32
         sleep(0.1) # https://github.com/fchollet/keras/issues/2110
 
         model.save(model_name)

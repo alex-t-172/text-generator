@@ -5,12 +5,9 @@ import numpy as np
 from keras.models import load_model
 
 
-def generate_text(corpus, chars, char_indices, indices_char):
+def generate_text(model_name, chars, char_indices, indices_char):
     '''Load in trained model of specified iteration, generate some output text based off a seed string.'''
-    
-    iteration = input('Type iteration of model to load: ')
 
-    model_name = '{}_LSTM_model{}.h5'.format(corpus, iteration)
     model = load_model(model_name)
 
     writing_range = input('Please specify no of characters to generate:')

@@ -42,7 +42,6 @@ def generate_ohhla_text(artist):
             elem_txt = elem_txt[0].getText()
         
             elem_txt = elem_txt.rpartition('Typed by: ')[-1]
-            #elem_txt = elem_txt.rpartition('\\n')[-1]
             elem_txt = elem_txt.splitlines()[2:]
             elem_txt = '\n'.join(elem_txt)
 

@@ -15,11 +15,11 @@ from time import sleep
 import sys
 
 
-def create_indices(corpus):
+def create_indices(filename):
     '''Read text from file for given corpus, and generate list of all characters used in file,
     and 2 dictionaries of indices per character.'''
     
-    text = open('{}_data.txt'.format(corpus)).read().lower()
+    text = open(filename).read().lower()
 
     print('corpus length:', len(text))
 
@@ -30,12 +30,12 @@ def create_indices(corpus):
     return text, char_indices, indices_char, chars
 
 
-def create_data_arrays(text, char_indices, indices_char, chars):
-    '''Vectorize text data for given text, spliting into sequences of length=40'''
+def create_data_arrays(text, char_indices, indices_char, chars, max_len):
+    '''Vectorize text data for given text, spliting into sequences of max_len'''
     
-    #input is a sequence of 40 chars and target is also a sequence of 40 chars shifted by one position
+    #input is a sequence of max_len chars and target is also a sequence of max_len chars shifted by one position
 
-    maxlen = 40
+    maxlen = max_len
     step = 1
     sentences = []
     next_chars = []
@@ -59,13 +59,13 @@ def create_data_arrays(text, char_indices, indices_char, chars):
     return X, y
     
 
-def build_LSTM_model(chars):
-    '''Build a 2 stacked LSTM model to train on the corpus.'''
+def build_LSTM_model(chars, n_nodes):
+    '''Build a 2 stacked LSTM model of n_nodes neurons per layer to train on the corpus.'''
     
     print('Building model...')
     model = Sequential()
-    model.add(LSTM(512, input_dim=len(chars),return_sequences=True))
-    model.add(LSTM(512, return_sequences=True))
+    model.add(LSTM(n_nodes, input_dim=len(chars),return_sequences=True))
+    model.add(LSTM(n_nodes, return_sequences=True))
     model.add(Dropout(0.2))
     model.add(TimeDistributed(Dense(len(chars))))
     model.add(Activation('softmax'))
@@ -78,7 +78,7 @@ def build_LSTM_model(chars):
     return model
 
 
-def train_LSTM_model(model, X, y, corpus):
+def train_LSTM_model(model, X, y, save_name):
     '''Train 2 stacked LSTM model on vectorized corpus data, save results at each iteration.'''
     
     for iteration in range(1, 6):
@@ -89,8 +89,8 @@ def train_LSTM_model(model, X, y, corpus):
         history=model.fit(X, y, batch_size=32, nb_epoch=1,verbose=0)    #small batch size for faster training? try 16 or 32
         sleep(0.1) # https://github.com/fchollet/keras/issues/2110
 
-
-        model.save('{}_LSTM_model{}.h5'.format(corpus, iteration))
+        if save_name:
+            model.save(save_name)
 
         sys.stdout.flush()
         print ('training history:')

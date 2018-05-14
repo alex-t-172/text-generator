@@ -15,11 +15,11 @@ from time import sleep
 import sys
 
 
-def create_indices(artist):
-    '''Read text from file for given artist, and generate list of all characters used in file,
+def create_indices(corpus):
+    '''Read text from file for given corpus, and generate list of all characters used in file,
     and 2 dictionaries of indices per character.'''
     
-    text = open('{}_data.txt'.format(artist)).read().lower()
+    text = open('{}_data.txt'.format(corpus)).read().lower()
 
     print('corpus length:', len(text))
 
@@ -30,8 +30,8 @@ def create_indices(artist):
     return text, char_indices, indices_char, chars
 
 
-def create_data_arrays(text, artist, char_indices, indices_char, chars):
-    '''Vectorize text data for given artist, spliting the corpus into sequences of length=40'''
+def create_data_arrays(text, char_indices, indices_char, chars):
+    '''Vectorize text data for given text, spliting into sequences of length=40'''
     
     #input is a sequence of 40 chars and target is also a sequence of 40 chars shifted by one position
 
@@ -78,7 +78,7 @@ def build_LSTM_model(chars):
     return model
 
 
-def train_LSTM_model(model, X, y, artist):
+def train_LSTM_model(model, X, y, corpus):
     '''Train 2 stacked LSTM model on vectorized corpus data, save results at each iteration.'''
     
     for iteration in range(1, 6):
@@ -90,7 +90,7 @@ def train_LSTM_model(model, X, y, artist):
         sleep(0.1) # https://github.com/fchollet/keras/issues/2110
 
 
-        model.save('{}_LSTM_model{}.h5'.format(artist, iteration))
+        model.save('{}_LSTM_model{}.h5'.format(corpus, iteration))
 
         sys.stdout.flush()
         print ('training history:')

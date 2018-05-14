@@ -20,11 +20,11 @@ def full_run(download_flag):
 
 
 def text_gen_run():
-    '''Generate output text for specified artist - for pre trained model.'''
+    '''Generate output text for specified corpus - for pre trained model.'''
     
-    artist = input('Type name of artist to work with: ')
-    text, char_indices, indices_char, chars = build_model.create_indices(artist)
-    text_rnn_generate.generate_text(artist, chars, char_indices, indices_char)
+    corpus = input('Type name of corpus to work with: ')
+    text, char_indices, indices_char, chars = build_model.create_indices(corpus)
+    text_rnn_generate.generate_text(corpus, chars, char_indices, indices_char)
     
 
 if __name__ == '__main__':

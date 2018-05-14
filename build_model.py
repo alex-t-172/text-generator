@@ -8,7 +8,7 @@
 
 from __future__ import print_function
 import numpy as np
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation, Dropout
 from keras.layers import LSTM,TimeDistributed
 from time import sleep
@@ -59,7 +59,7 @@ def create_data_arrays(text, char_indices, indices_char, chars, max_len):
     return X, y
     
 
-def build_LSTM_model(chars, n_nodes):
+def build_LSTM_model(chars, n_nodes, save_name):
     '''Build a 2 stacked LSTM model of n_nodes neurons per layer to train on the corpus.'''
     
     print('Building model...')
@@ -75,13 +75,14 @@ def build_LSTM_model(chars, n_nodes):
     print ('model is made')
     print (model.summary())
     
-    return model
+    model.save(save_name)
 
 
-def train_LSTM_model(model, X, y, save_name):
-    '''Train 2 stacked LSTM model on vectorized corpus data, save results at each iteration.'''
+def train_LSTM_model(model_name, X, y, n_iter):
+    '''Train 2 stacked LSTM model on vectorized corpus data, overwrite results at each iteration.'''
+    model = load_model(model_name)
     
-    for iteration in range(1, 6):
+    for iteration in range(1, n_iter):
         print()
         print('-' * 50)
         print('Iteration', iteration)
@@ -89,11 +90,9 @@ def train_LSTM_model(model, X, y, save_name):
         history=model.fit(X, y, batch_size=32, nb_epoch=1,verbose=0)    #small batch size for faster training? try 16 or 32
         sleep(0.1) # https://github.com/fchollet/keras/issues/2110
 
-        if save_name:
-            model.save(save_name)
+        model.save(model_name)
 
         sys.stdout.flush()
         print ('training history:')
-        print (history.history['loss'][0])
         print (history.history)
         print()

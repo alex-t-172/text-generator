@@ -29,7 +29,7 @@ def generate_ohhla_text(artist):
         if artist in i:
             refiltered.append(i)
 
-    data_file = open('{}_data.txt'.format(artist), 'w')
+    data_file = open('text_data/{}_data.txt'.format(artist), 'w')
 
 
     for song in refiltered:

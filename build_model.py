@@ -78,7 +78,7 @@ def build_LSTM_model(chars, n_nodes, save_name):
     model.save(save_name)
 
 
-def train_LSTM_model(model_name, X, y, n_iter):
+def train_LSTM_model(model_name, X, y, batch_size, n_iter):
     '''Train 2 stacked LSTM model on vectorized corpus data, overwrite results at each iteration.'''
     model = load_model(model_name)
     

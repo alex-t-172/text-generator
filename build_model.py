@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-####
-
-#modified version of text generation example in keras; trained in a many-to-many fashion using a time distributed dense layer
-
-####
-
 from __future__ import print_function
 import numpy as np
 from keras.models import Sequential, load_model
@@ -32,22 +26,20 @@ def create_indices(filename):
 
 def create_data_arrays(text, char_indices, indices_char, chars, max_len):
     '''Vectorize text data for given text, spliting into sequences of max_len'''
-    
-    #input is a sequence of max_len chars and target is also a sequence of max_len chars shifted by one position
 
     maxlen = max_len
     step = 1
     sentences = []
     next_chars = []
     for i in range(0, len(text) - maxlen+1, step):
-        sentences.append(text[i: i + maxlen]) #input seq is from i to i  + maxlen
-        next_chars.append(text[i+1:i +1+ maxlen]) # output seq is from i+1 to i+1+maxlen
+        sentences.append(text[i: i + maxlen])
+        next_chars.append(text[i+1:i +1+ maxlen])
 
-    print('nb sequences:', len(sentences))
+    print('No sequences:', len(sentences))
 
     print('Vectorization...')
     X = np.zeros((len(sentences), maxlen, len(chars)), dtype=np.bool)
-    y = np.zeros((len(sentences),maxlen, len(chars)), dtype=np.bool) # y is also a sequence , or  a seq of 1 hot vectors
+    y = np.zeros((len(sentences),maxlen, len(chars)), dtype=np.bool)
     for i, sentence in enumerate(sentences):
         for t, char in enumerate(sentence):
             X[i, t, char_indices[char]] = 1
@@ -87,8 +79,8 @@ def train_LSTM_model(model_name, X, y, batch_size, n_iter):
         print('-' * 50)
         print('Iteration', iteration)
         
-        history=model.fit(X, y, batch_size=batch_size, nb_epoch=1,verbose=0)    #small batch size for faster training? try 16 or 32
-        sleep(0.1) # https://github.com/fchollet/keras/issues/2110
+        history=model.fit(X, y, batch_size=batch_size, nb_epoch=1,verbose=0)
+        sleep(0.1)
 
         model.save(model_name)
 

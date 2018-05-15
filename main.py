@@ -5,7 +5,6 @@ import build_model
 import text_rnn_generate
 
 def get_artist_text():
-    '''Download song lyrics for specified artist.'''
     
     artist = input('Type name of artist to work with: ')
     rap_lyrics_data_gen.generate_ohhla_text(artist)
@@ -28,7 +27,6 @@ def train_model(text_filename, model_name, max_len, batch_size, n_iter):
 
 
 def text_gen_run(text_filename, save_name):
-    '''Generate output text for specified corpus - for pre trained model.'''
     
     text, char_indices, indices_char, chars = build_model.create_indices(text_filename)
     text_rnn_generate.generate_text(save_name, chars, char_indices, indices_char)
